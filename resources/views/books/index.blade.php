@@ -12,12 +12,12 @@
                     <h3 class="font-semibold text-lg mb-4">List of Books:</h3>
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($books as $book)
+                        <a href="{{ route('books.show', $book) }}">
                             <x-book-card
                                 :title="$book->title"
                                 :image="$book->image"
-                                :year="$book->year"
-                                :description="$book->description"
                             />
+                        </a>
                         @endforeach
                     </div>
                 </div>

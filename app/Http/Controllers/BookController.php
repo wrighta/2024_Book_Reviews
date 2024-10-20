@@ -12,7 +12,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::all(); // Fetch all books 
+        $books = Book::all(); // Fetch all books
         return view('books.index', compact('books')); // Return the view with books
     }
 
@@ -37,7 +37,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        //
+        return view('books.show')->with('book', $book);
     }
 
     /**
