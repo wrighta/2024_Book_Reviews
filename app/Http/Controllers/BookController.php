@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -21,16 +22,59 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        return view('books.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+        // Validate input
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required|max:500',
+            'year' => 'required|integer',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        // Check if the image is uploaded and handle it
+        if ($request->hasFile('image')) {
+            // $image = $request->file('image');
+
+            // // Create a unique name for the image file
+            // $imageName = time() . '.' . $image->getClientOriginalExtension();
+
+            // // Store the image file using the Storage facade
+            // // Files are stored under 'public/books' (this corresponds to storage/app/public/books)
+            // $imagePath = $image->storeAs('image/books', $imageName, 'public'); // 'books' directory in 'storage/app/public'
+
+            // // Get the publicly accessible URL
+            // $imageUrl = Storage::url($imagePath);
+
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images/books'), $imageName);
+
+        }
+
+
+
+        // Create a book record in the database
+        Book::create([
+            'title' => $request->title,
+            'description' => $request->description, // Fixed typo from 'descriptn'
+            'year' => $request->year,
+            'image' => $imageName, // Store the image URL in the DB
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Redirect to the index page with a success message
+        return to_route('books.index')->with('success', 'Book created successfully!');
     }
+
+
+
+
+
 
     /**
      * Display the specified resource.
