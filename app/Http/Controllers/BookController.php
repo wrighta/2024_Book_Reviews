@@ -38,18 +38,7 @@ class BookController extends Controller
 
         // Check if the image is uploaded and handle it
         if ($request->hasFile('image')) {
-            // $image = $request->file('image');
-
-            // // Create a unique name for the image file
-            // $imageName = time() . '.' . $image->getClientOriginalExtension();
-
-            // // Store the image file using the Storage facade
-            // // Files are stored under 'public/books' (this corresponds to storage/app/public/books)
-            // $imagePath = $image->storeAs('image/books', $imageName, 'public'); // 'books' directory in 'storage/app/public'
-
-            // // Get the publicly accessible URL
-            // $imageUrl = Storage::url($imagePath);
-
+          
             $imageName = time().'.'.$request->image->extension();
             $request->image->move(public_path('images/books'), $imageName);
 

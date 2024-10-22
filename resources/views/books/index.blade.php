@@ -3,6 +3,12 @@
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('All Books') }}
         </h2>
+
+               <!--alert-success is a component I created to display a success message that may be sent from the controller.
+            for example when a book is deleted a message a message the message  "Book Deleted Successfully" will-->
+            <x-alert-success>
+                {{ session('success') }}
+            </x-alert-success>
     </x-slot>
 
     <div class="py-12">
