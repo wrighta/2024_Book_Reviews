@@ -1,4 +1,4 @@
-@props(['action', 'method'])
+@props(['action', 'method', 'book'])
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
     @csrf
@@ -71,8 +71,8 @@
     @endisset
 
     <div>
-        <x-primary-button>
-            {{ isset($book) ? 'Update Book' : 'Add Book' }}
-        </x-primary-button>
-    </div>
+    <x-primary-button>
+        {{ isset($book) ? 'Update Book' : 'Add Book' }}
+    </x-primary-button>
+</div>
 </form>
