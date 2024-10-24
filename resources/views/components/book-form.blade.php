@@ -66,7 +66,7 @@
 
     @isset($book->image)
         <div class="mb-4">
-            <img src="{{ asset($book->image) }}" alt="Book cover" class="w-24 h-32 object-cover">
+             <img src="{{asset( 'images/books/' . $book->image)}}" alt="$book->title" class="w-24 h-32 object-cover">
         </div>
     @endisset
 

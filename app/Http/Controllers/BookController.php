@@ -74,6 +74,8 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
+        // echo $book;
+        // dd($book);
         return view('books.edit')->with('book', $book);
 
     }
@@ -117,6 +119,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+         return to_route('books.index')->with('success','Book Deleted');
     }
 }
