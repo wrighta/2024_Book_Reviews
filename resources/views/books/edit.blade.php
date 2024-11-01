@@ -11,9 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <h3 class="font-semibold text-lg mb-4">Edit New Book:</h3>
 
-                    {{-- {{$book}}
-                    <p>$book->title<p/> --}}
-
+            
                     {{-- Using the BookForm component for book creation --}}
                     <x-book-form
                         :action="route('books.update', $book)"

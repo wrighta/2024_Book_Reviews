@@ -74,5 +74,9 @@
     <x-primary-button>
         {{ isset($book) ? 'Update Book' : 'Add Book' }}
     </x-primary-button>
+      <!-- Cancel Button -->
+        <button type="button" onclick="window.location='{{ route('books.index') }}'" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Cancel
+        </button>
 </div>
 </form>
