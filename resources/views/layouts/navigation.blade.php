@@ -18,9 +18,13 @@
                     <x-nav-link :href="route('books.index')" :active="request()->routeIs('books.index')">
                         {{ __('View All Books') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
-                        {{ __('Create New Books') }}
-                    </x-nav-link>
+
+                    <!-- the create link only appears for admin users -->
+                    @if(auth()->user()->role === 'admin')
+                        <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
+                            {{ __('Create New Books') }}
+                        </x-nav-link>
+                    @endif
 
 
 

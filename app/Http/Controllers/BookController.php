@@ -22,12 +22,19 @@ class BookController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('books.index')->with('error', 'Access denied.');
+        }
         return view('books.create');
     }
 
 
     public function store(Request $request)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('books.index')->with('error', 'Access denied.');
+        }
+
         // Validate input
         $request->validate([
             'title' => 'required',
@@ -74,8 +81,9 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        // echo $book;
-        // dd($book);
+        if (auth()->user()->role !== 'admin') {
+        return redirect()->route('books.index')->with('error', 'Access denied.');
+    }
         return view('books.edit')->with('book', $book);
 
     }
@@ -85,6 +93,9 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('books.index')->with('error', 'Access denied.');
+        }
 
           // Validate input
           $request->validate([
@@ -119,6 +130,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('books.index')->with('error', 'Access denied.');
+        }
+        
         $book->delete();
          return to_route('books.index')->with('success','Book Deleted');
     }

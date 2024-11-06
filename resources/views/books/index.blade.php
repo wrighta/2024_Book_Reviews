@@ -59,23 +59,25 @@
                                 <x-book-card :title="$book->title" :image="$book->image" />
                             </a>
 
-                            <!-- Edit and Delete Buttons -->
-                            <div class="mt-4 flex space-x-2">
-                                <!-- Edit Button route to books.edit and receives the $book object so it knows which book is for editing-->
-                                <a href="{{ route('books.edit', $book) }}" class="text-gray-600 bg-orange-300 hover:bg-orange-700 font-bold py-2 px-4 rounded">
-                                    Edit
-                                </a>
+                            @if(auth()->user()->role === 'admin')
+                                <!-- Edit and Delete Buttons -->
+                                <div class="mt-4 flex space-x-2">
+                                    <!-- Edit Button route to books.edit and receives the $book object so it knows which book is for editing-->
+                                    <a href="{{ route('books.edit', $book) }}" class="text-gray-600 bg-orange-300 hover:bg-orange-700 font-bold py-2 px-4 rounded">
+                                        Edit
+                                    </a>
 
-                                <!-- Delete Button (you need a form to send DELETE requests) -->
-                                <!-- Delete Button route to books.destroy,  receives the $book object so it knows which book is for editing-->
-                                <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this book?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-gray-600 font-bold py-2 px-4 rounded">
-                                        Delete
-                                    </button>
-                                </form>
-                            </div>
+                                    <!-- Delete Button (you need a form to send DELETE requests) -->
+                                    <!-- Delete Button route to books.destroy,  receives the $book object so it knows which book is for editing-->
+                                    <form action="{{ route('books.destroy', $book) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="bg-red-500 hover:bg-red-700 text-gray-600 font-bold py-2 px-4 rounded">
+                                            Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                         @endforeach
                     </div>
