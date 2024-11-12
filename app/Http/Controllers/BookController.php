@@ -65,15 +65,17 @@ class BookController extends Controller
 
 
 
-
-
-
     /**
      * Display the specified resource.
      */
     public function show(Book $book)
     {
-        return view('books.show')->with('book', $book);
+        // Load the book with its associated reviews and the user who made each review
+        $book->load('reviews.user');  // Assuming each review has a `user_id` for the reviewer
+        return view('books.show', compact('book'));
+        // Compact is shorthand for this
+        // return view('books.show', ['book' => $book]);
+
     }
 
     /**
@@ -133,7 +135,7 @@ class BookController extends Controller
         if (auth()->user()->role !== 'admin') {
             return redirect()->route('books.index')->with('error', 'Access denied.');
         }
-        
+
         $book->delete();
          return to_route('books.index')->with('success','Book Deleted');
     }

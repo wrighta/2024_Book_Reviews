@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ReviewController;
 
 
 Route::get('/', function () {
@@ -28,5 +29,12 @@ Route::put('/books/{book}', [BookController::class, 'update'])->name('books.upda
 Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
 
 
+// The code below creates all Routes for reviews
+Route::resource('reviews', ReviewController::class);
+
+// I am overwriting the usual store route, as I want it to accept a book parameter. 
+// This route is designed to take a book parameter, so it expects books/{book}/reviews in the URL.
+// the route name 'reviews.store' is what we mention in the view eg. <form action="{{ route('reviews.store', $book) }}" ......
+Route::post('books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 require __DIR__.'/auth.php';
