@@ -19,7 +19,11 @@
                             :description="$book->description"
                         />
 
-                              {{-- Book Reviews --}}
+
+
+                    {{-- Book Reviews --}}
+                    {{-- You can choose to format this in such as way that suits your application--}}
+                    {{-- Consider using components for parts of the UI and figuring out tailwind for styling--}}
                     <h4 class="font-semibold text-md mt-8">Reviews</h4>
                     @if($book->reviews->isEmpty())
                         <p class="text-gray-600">No reviews yet.</p>
@@ -30,6 +34,23 @@
                                     <p class="font-semibold">{{ $review->user->name }} ({{ $review->created_at->format('M d, Y') }})</p>
                                     <p>Rating: {{ $review->rating }} / 5</p>
                                     <p>{{ $review->comment }}</p>
+
+                                    {{--If the logged in User wrote the review OR the logged in user is an admin they can edit and delete the review--}}
+                                    {{-- you need to consider your application to determine who has permissions edit/delete certain content--}}
+                                    @if ($review->user->is(auth()->user()) || auth()->user()->role === 'admin')
+
+                                        <a href="{{ route('reviews.edit', $review) }}" class="bg-yellow-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+                                            {{ __('Edit Review') }}
+                                        </a>
+                                        <form method="POST" action="{{ route('reviews.destroy', $review) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <x-danger-button :href="route('reviews.destroy', $review)"
+                                                                onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Delete Review') }}
+                                            </x-danger-button>
+                                        </form>
+                                    @endif
                                 </li>
                             @endforeach
                         </ul>

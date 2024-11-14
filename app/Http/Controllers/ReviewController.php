@@ -62,7 +62,14 @@ class ReviewController extends Controller
      */
     public function edit(Review $review)
     {
-        //
+        // // Check if user is the owner or an admin
+        if (auth()->user()->id !== $review->user_id && auth()->user()->role !== 'admin') {
+            return redirect()->route('books.index')->with('error', 'Access denied.');
+        }
+
+
+        // I am passing the book and the review object to the view,as they are both needed
+        return view('reviews.edit', compact('review'));
     }
 
     /**
@@ -70,14 +77,22 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        //
-    }
+        // Your update logic here, such as validation and updating review fields
+        $review->update($request->only(['rating', 'comment']));
 
+        return redirect()->route('books.show', $review->book_id)
+                         ->with('success', 'Review updated successfully.');
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Review $review)
     {
-        //
+        $review->delete();
+        // Return to list of all books
+        // However, what if you wanted to return to book show view
+        // you'd need to pass the book to this view
+        return to_route('books.index')->with('success','Review Deleted');
+
     }
 }
