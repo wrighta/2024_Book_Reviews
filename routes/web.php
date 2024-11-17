@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AuthorController;
 
 
 Route::get('/', function () {
@@ -34,6 +35,8 @@ Route::resource('reviews', ReviewController::class);
 
 // I am overwriting the usual store route, as I want it to accept a book parameter.- you may or may not need this.
 Route::post('books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
+
+Route::resource('authors', AuthorController::class)->middleware('auth');
 
 
 require __DIR__.'/auth.php';

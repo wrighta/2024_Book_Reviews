@@ -19,8 +19,17 @@ class Book extends Model
         'updated_at',
     ];
 
+    // book can have many reviews
     public function reviews()
     {
         return $this->hasMany(Review::class);
     }
+
+    // Book can have many authors
+    public function authors()
+    {
+        return $this->belongsToMany(Author::class);
+    }
+
+
 }
