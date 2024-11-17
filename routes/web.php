@@ -32,11 +32,8 @@ Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.
 // The code below creates all Routes for reviews
 Route::resource('reviews', ReviewController::class);
 
-// I am overwriting the usual store & update route, as I want it to accept a book parameter.
-// These routes are designed to take a book parameter, so it expects books/{book}/reviews in the URL.
+// I am overwriting the usual store route, as I want it to accept a book parameter.- you may or may not need this.
 Route::post('books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
-// Route::get('books/{book}/reviews/{review}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
-// Route::put('books/{book}/reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
 
 require __DIR__.'/auth.php';

@@ -67,7 +67,6 @@ class ReviewController extends Controller
             return redirect()->route('books.index')->with('error', 'Access denied.');
         }
 
-
         // I am passing the book and the review object to the view,as they are both needed
         return view('reviews.edit', compact('review'));
     }
@@ -77,9 +76,15 @@ class ReviewController extends Controller
      */
     public function update(Request $request, Review $review)
     {
-        // Your update logic here, such as validation and updating review fields
+        // check to ensure the user is authorised to update this content
+
+        // Your validation code here
+
+        // You must consider what attrbiutes can be altered in your table
+        // Only rating and comment can be altered, not book_id or user_id
         $review->update($request->only(['rating', 'comment']));
 
+        // once it's updated in the DB, redirect somewhere that makes sense for your appplication
         return redirect()->route('books.show', $review->book_id)
                          ->with('success', 'Review updated successfully.');
     }

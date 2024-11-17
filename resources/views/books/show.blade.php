@@ -36,7 +36,7 @@
                                     <p>{{ $review->comment }}</p>
 
                                     {{--If the logged in User wrote the review OR the logged in user is an admin they can edit and delete the review--}}
-                                    {{-- you need to consider your application to determine who has permissions edit/delete certain content--}}
+                                    {{-- you need to consider your application to determine who has permissions to edit/delete content--}}
                                     @if ($review->user->is(auth()->user()) || auth()->user()->role === 'admin')
 
                                         <a href="{{ route('reviews.edit', $review) }}" class="bg-yellow-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
