@@ -17,6 +17,7 @@
                         :method="'PUT'"
                         :books="$books"
                         :author="$author"
+                        :authorBooks="$authorBooks"
                     />
                 </div>
             </div>

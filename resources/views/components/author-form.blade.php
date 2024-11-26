@@ -1,4 +1,4 @@
-@props(['action', 'method', 'author', 'books'])
+@props(['action', 'method', 'author', 'books', 'authorBooks'])
 
 <form action="{{ $action }}" method="POST" enctype="multipart/form-data">
     @csrf
