@@ -19,16 +19,23 @@
                         {{ __('View All Books') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('authors.index')" :active="request()->routeIs('authors.index')">
+                        {{ __('View All Authors') }}
+                    </x-nav-link>
+
                     <!-- the create link only appears for admin users -->
                     @if(auth()->user()->role === 'admin')
                         <x-nav-link :href="route('books.create')" :active="request()->routeIs('books.create')">
                             {{ __('Create New Books') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('authors.create')" :active="request()->routeIs('authors.create')">
+                            {{ __('Create New Author') }}
+                        </x-nav-link>
+
                     @endif
-
-
-
                 </div>
+
             </div>
 
             <!-- Settings Dropdown -->
