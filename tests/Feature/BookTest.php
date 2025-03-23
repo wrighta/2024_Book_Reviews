@@ -34,8 +34,6 @@ class BookTest extends TestCase
         $this->actingAs($admin);
 
         // Create a fake image file
-        //$fakeImage = UploadedFile::fake()->image('test.jpg');
-
         $fakeImage = UploadedFile::fake()->create('test.jpg');
         // Simulate a POST request to create a book with a real file upload
         $response = $this->post('/books', [
@@ -48,10 +46,7 @@ class BookTest extends TestCase
         // Assert that the book was inserted in the database
         $this->assertDatabaseHas('books', ['title' => 'Test Book']);
 
-        // Assert the image was actually "stored"
-        //Storage::disk('public')->assertExists('images/books/' . $fakeImage->hashName());
-
-        // Assert redirect to books index page
+             // Assert redirect to books index page
         $response->assertRedirect(route('books.index'));
 }
 
