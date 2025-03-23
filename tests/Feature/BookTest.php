@@ -24,35 +24,67 @@ class BookTest extends TestCase
 
     public function test_admin_can_create_book()
     {
+        // Fake the storage (so it doesn't actually save files)
+        Storage::fake('public');
+
+        // Create an admin user
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        // Act as the admin user
+        $this->actingAs($admin);
+
+        // Create a fake image file
+        //$fakeImage = UploadedFile::fake()->image('test.jpg');
+
+        $fakeImage = UploadedFile::fake()->create('test.jpg');
+        // Simulate a POST request to create a book with a real file upload
+        $response = $this->post('/books', [
+            'title' => 'Test Book',
+            'description' => 'A test description',
+            'year' => 2023,
+            'image' => $fakeImage, // Pass the fake image here
+        ]);
+
+        // Assert that the book was inserted in the database
+        $this->assertDatabaseHas('books', ['title' => 'Test Book']);
+
+        // Assert the image was actually "stored"
+        //Storage::disk('public')->assertExists('images/books/' . $fakeImage->hashName());
+
+        // Assert redirect to books index page
+        $response->assertRedirect(route('books.index'));
+}
+
+public function test_user_cannot_create_book()
+{
     // Fake the storage (so it doesn't actually save files)
     Storage::fake('public');
 
-    // Create an admin user
-    $admin = User::factory()->create(['role' => 'admin']);
+    // Create a regular user (non-admin)
+    $user = User::factory()->create(['role' => 'user']);
 
-    // Act as the admin user
-    $this->actingAs($admin);
+    // Act as the regular user
+    $this->actingAs($user);
 
     // Create a fake image file
-    //$fakeImage = UploadedFile::fake()->image('test.jpg');
-
     $fakeImage = UploadedFile::fake()->create('test.jpg');
-    // Simulate a POST request to create a book with a real file upload
+
+    // Simulate a POST request to create a book
     $response = $this->post('/books', [
-        'title' => 'Test Book',
-        'description' => 'A test description',
+        'title' => 'Unauthorized Book',
+        'description' => 'This should not be allowed',
         'year' => 2023,
-        'image' => $fakeImage, // Pass the fake image here
+        'image' => $fakeImage,
     ]);
 
-    // Assert that the book was inserted in the database
-    $this->assertDatabaseHas('books', ['title' => 'Test Book']);
+    // Assert that the book was NOT inserted in the database
+    $this->assertDatabaseMissing('books', ['title' => 'Unauthorized Book']);
 
-    // Assert the image was actually "stored"
-    //Storage::disk('public')->assertExists('images/books/' . $fakeImage->hashName());
-
-    // Assert redirect to books index page
+    // Assert the user was redirected (status 302)
     $response->assertRedirect(route('books.index'));
+
+    // Assert the session contains the 'Access denied' error
+    $response->assertSessionHas('error', 'Access denied.');
 }
 
 }
