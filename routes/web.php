@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AuthorController;
-
+use App\Http\Controllers\EditionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -37,6 +37,19 @@ Route::resource('reviews', ReviewController::class);
 Route::post('books/{book}/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 
 Route::resource('authors', AuthorController::class)->middleware('auth');
+
+
+Route::resource('books.editions', EditionController::class)
+    ->only(['create', 'store'])
+    ->shallow(); // this keeps other routes as normal - not nested
+
+    
+// The code below does the same as the resource route above
+// Route::get('/books/{book}/editions/create', [EditionController::class, 'create'])
+//     ->name('books.editions.create');
+
+// Route::post('/books/{book}/editions', [EditionController::class, 'store'])
+//     ->name('books.editions.store');
 
 
 require __DIR__.'/auth.php';

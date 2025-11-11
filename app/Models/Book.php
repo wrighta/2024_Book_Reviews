@@ -31,5 +31,11 @@ class Book extends Model
         return $this->belongsToMany(Author::class);
     }
 
+     // One Book has many Editions
+    public function editions()
+    {
+        return $this->hasMany(Edition::class);
+    }
+
 
 }

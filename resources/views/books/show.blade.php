@@ -56,6 +56,7 @@
                         </ul>
                     @endif
 
+
                     {{-- Add a New Review --}}
                     <h4 class="font-semibold text-md mt-8">Add a Review</h4>
                     <form action="{{ route('reviews.store', $book) }}" method="POST" class="mt-4">

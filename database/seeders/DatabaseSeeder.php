@@ -19,9 +19,11 @@ class DatabaseSeeder extends Seeder
           // Create 100 Users for Reviews
           User::factory(100)->create();
 
+          
           // Create 500 Books and 200 Authors
           $books = Book::factory(500)->create();
           $authors = Author::factory(200)->create();
+
 
           // Attach Authors to Books (Many-to-Many)
           foreach ($books as $book) {
